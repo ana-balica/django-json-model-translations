@@ -35,6 +35,11 @@ If you want to restrict your translations to a limited number of languages, set 
 It is recommended to configure this list, as it allows `TranslationJSONField` to pick up on the list of languages 
 without providing and maintaining them for each field separately.
 
+If you add new languages to `LANGUAGES` (which will innevitably happen), 
+newly added language codes will not appear as keys in `TranslationJSONField` for existing objects.
+However the full list will be used when creating new objects.
+If you want to re-populate existing objects with new values, you will need to write a custom data migration.
+
 ### Reads & writes
 
 ```python

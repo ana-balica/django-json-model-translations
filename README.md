@@ -31,7 +31,7 @@ class IceCreamFlavour(models.Model):
 
 ### Settings
 
-If you want to restrict your translations to a limited number of languages, set [LANGUAGES](https://docs.djangoproject.com/en/2.0/ref/settings/#languages) Django setting. 
+If you want to restrict your translations to a limited number of languages, set [`LANGUAGES`](https://docs.djangoproject.com/en/2.0/ref/settings/#languages) Django setting. 
 It is recommended to configure this list, as it allows `TranslationJSONField` to pick up on the list of languages 
 without providing and maintaining them for each field separately.
 
@@ -63,3 +63,12 @@ with override('fr_fr'):
 # Dump all values of name
 print(vanilla_ice_cream.name__raw)  # {'en_gb': 'New vanilla', 'fr_fr': 'Best vanille in French', 'nl_nl': ''}
 ```
+
+If you try to read from a language that's missing, the field will **fallback to default language** ([`LANGUAGE_CODE`](https://docs.djangoproject.com/en/2.0/ref/settings/#language-code)):
+
+```python
+with override('ru_ru'):
+    print(vanilla_ice_cream.name)  # vanilla
+```
+
+Writting to a new language key is possible and will create this new JSON key-value pair.

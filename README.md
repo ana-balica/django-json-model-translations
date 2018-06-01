@@ -72,3 +72,21 @@ with override('ru_ru'):
 ```
 
 Writting to a new language key is possible and will create this new JSON key-value pair.
+
+### Filtering 
+
+When filtering by a translatable field, make sure to use the default language value.
+
+```python
+>>> IceCreamFlavour.objects.filter(name='vanilla')
+<IceCreamFlavour: IceCreamFlavour object>
+>>> IceCreamFlavour.objects.filter(name='vanille')
+None
+```
+
+You can always use the `JSONField` querying syntax to filter via a specific key:
+
+```python
+>>> IceCreamFlavour.objects.filter(name__fr_fr='vanille')
+<IceCreamFlavour: IceCreamFlavour object>
+```

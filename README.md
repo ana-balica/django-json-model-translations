@@ -7,6 +7,8 @@ Hence this package can only be used with PostgreSQL.
 
 ## How it works
 
+### Models
+
 First create translatable fields as `TranslationJSONField`:
 
 ```python
@@ -17,16 +19,23 @@ from djjmt.fields import TranslationJSONField
 
 
 class IceCreamFlavour(models.Model):
-    name = TranslationJSONField(models.CharField(max_length=127), default_langs=['en_gb', 'fr_fr', 'nl_nl'])
+    name = TranslationJSONField(models.CharField(max_length=127), langs=['en_gb', 'fr_fr', 'nl_nl'])
+    origin = TranslationJSONField(models.CharField(max_length=127, default=_('Homemade'))
     shop = TranslationJSONField(
         models.CharField(max_length=255), 
-        default_langs=['en_gb', 'fr_fr', 'nl_nl'],
+        langs=['en_gb', 'fr_fr', 'nl_nl'],
         default=_('Your favourite ice-cream shop'),
     )
     price_per_pound = models.DecimalField()
 ```
 
-Here's how reads and writes happen:
+### Settings
+
+If you want to restrict your translations to a limited number of languages, set [LANGUAGES](https://docs.djangoproject.com/en/2.0/ref/settings/#languages) Django setting. 
+It is recommended to configure this list, as it allows `TranslationJSONField` to pick up on the list of languages 
+without providing and maintaining them for each field separately.
+
+### Reads & writes
 
 ```python
 from django.utils.translation import activate, override

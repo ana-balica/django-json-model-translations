@@ -19,10 +19,10 @@ from djjmt.fields import TranslationJSONField
 
 
 class IceCreamFlavour(models.Model):
-    name = TranslationJSONField(models.CharField(max_length=127), langs=['en_gb', 'fr_fr', 'nl_nl'])
-    origin = TranslationJSONField(models.CharField(max_length=127), default=_('Homemade'))
+    name = TranslationJSONField(base_field=models.CharField(max_length=127), langs=['en_gb', 'fr_fr', 'nl_nl'])
+    origin = TranslationJSONField(base_field=models.CharField(max_length=127), default=_('Homemade'))
     shop = TranslationJSONField(
-        models.CharField(max_length=255),
+        base_field=models.CharField(max_length=255),
         langs=['en_gb', 'fr_fr', 'nl_nl'],
         default=_('Your favourite ice-cream shop'),
     )

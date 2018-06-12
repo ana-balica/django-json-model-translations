@@ -7,3 +7,9 @@ class TranslationJSONField(models.JSONField):
         super().__init__(**kwargs)
         self.base_field = base_field
         self.langs = langs or []
+
+    def deconstruct(self):
+        name, path, args, kwargs = super().deconstruct()
+        if self.langs is not None:
+            kwargs['langs'] = self.langs
+        return name, path, args, kwargs

@@ -1,7 +1,9 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class TranslationJSONField(models.JSONField):
+    description = _('A JSON object with translations')
 
     def __init__(self, base_field, langs=None, **kwargs):
         super().__init__(**kwargs)

@@ -35,3 +35,7 @@ class TranslationJSONField(JSONField):
         else:
             default_lang = settings.LANGUAGE_CODE
             return value.get(default_lang)
+
+    def validate(self, value, model_instance):
+        super().validate(value, model_instance)
+        # check if the keys are valid language codes

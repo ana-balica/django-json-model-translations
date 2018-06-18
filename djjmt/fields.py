@@ -12,6 +12,7 @@ class TranslationJSONField(JSONField):
 
     def deconstruct(self):
         name, path, args, kwargs = super().deconstruct()
+        kwargs['base_field'] = self.base_field
         if self.langs is not None:
             kwargs['langs'] = self.langs
         return name, path, args, kwargs

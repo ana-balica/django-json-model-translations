@@ -38,4 +38,13 @@ class TranslationJSONField(JSONField):
 
     def validate(self, value, model_instance):
         super().validate(value, model_instance)
-        # check if the keys are valid language codes
+        # TODO: check if the keys are valid language codes
+
+
+class TranslationJSONFieldDescriptor(object):
+    def __init__(self, field):
+        self.field = field
+
+    def __get__(self, instance, owner):
+        print('Accessing the value via descriptor')
+        return 'foo'

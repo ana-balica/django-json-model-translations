@@ -20,21 +20,21 @@ class TranslationJSONField(JSONField):
             kwargs['langs'] = self.langs
         return name, path, args, kwargs
 
-    def from_db_value(self, value, expression, connection):
-        # TODO: convert to a func that's called when the value is read, not when it's loaded from db
-        # TODO: normalize the language code to a common format
-        lang = get_language()
-        if lang is None:
-            raise ImproperlyConfigured('Enable translations to use TranslationJSONField.')
+    # def from_db_value(self, value, expression, connection):
+    #     # TODO: convert to a func that's called when the value is read, not when it's loaded from db
+    #     # TODO: normalize the language code to a common format
+    #     lang = get_language()
+    #     if lang is None:
+    #         raise ImproperlyConfigured('Enable translations to use TranslationJSONField.')
 
-        if value is None:
-            return value
+    #     if value is None:
+    #         return value
 
-        if lang in value:
-            return value.get(lang)
-        else:
-            default_lang = settings.LANGUAGE_CODE
-            return value.get(default_lang)
+    #     if lang in value:
+    #         return value.get(lang)
+    #     else:
+    #         default_lang = settings.LANGUAGE_CODE
+    #         return value.get(default_lang)
 
     def validate(self, value, model_instance):
         super().validate(value, model_instance)

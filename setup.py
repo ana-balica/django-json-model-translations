@@ -20,7 +20,9 @@ setup(
     url='https://github.com/ana-balica/django-json-model-translations',
     author='Ana Balica',
     author_email='ana.balica@gmail.com',
-    requires=['Django(>=1.11)'],
+    install_requires=['Django(>=1.11)'],
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest'],
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',

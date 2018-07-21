@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
+
+from .utils import get_normalised_language, normalise_language_code
 
 
 class TranslationJSONField(JSONField):
@@ -39,13 +40,12 @@ class TranslationJSONFieldDescriptor(object):
         self.json_value = None
 
     def __get__(self, instance, owner):
-        # TODO: normalize the language code to a common format
-        lang = get_language()
+        lang = get_normalised_language()
         if lang is None:
             raise ImproperlyConfigured('Enable translations to use TranslationJSONField.')
 
         if lang not in self.json_value:
-            lang = settings.LANGUAGE_CODE
+            lang = normalise_language_code(settings.LANGUAGE_CODE)
 
         return self.json_value.get(lang, None)
 

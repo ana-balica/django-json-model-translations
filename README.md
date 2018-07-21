@@ -95,3 +95,8 @@ You can always use the `JSONField` querying syntax to filter via a specific key:
 >>> IceCreamFlavour.objects.filter(name__fr_fr='vanille')
 <IceCreamFlavour: IceCreamFlavour object>
 ```
+
+
+## Running tests
+
+`python setup.py test`

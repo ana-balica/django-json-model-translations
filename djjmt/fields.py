@@ -52,3 +52,9 @@ class TranslationJSONFieldDescriptor(object):
     def __set__(self, instance, value):
         if isinstance(value, dict):
             self.json_value = value
+        else:
+            lang = get_normalised_language()
+            if lang is None:
+                raise ImproperlyConfigured('Enable translations to use TranslationJSONField.')
+
+            self.json_value[lang] = value

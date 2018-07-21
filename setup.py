@@ -22,7 +22,10 @@ setup(
     author_email='ana.balica@gmail.com',
     install_requires=['Django(>=1.11)'],
     setup_requires=['pytest-runner'],
-    tests_require=['pytest'],
+    tests_require=[
+        'pytest',
+        'pytest-django',
+    ],
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',

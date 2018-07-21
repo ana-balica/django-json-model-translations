@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Sample test project
+example/
+
+# Personal TODO
+TODO.md

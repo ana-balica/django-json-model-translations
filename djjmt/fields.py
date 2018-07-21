@@ -20,21 +20,13 @@ class TranslationJSONField(JSONField):
             kwargs['langs'] = self.langs
         return name, path, args, kwargs
 
-    # def from_db_value(self, value, expression, connection):
-    #     # TODO: convert to a func that's called when the value is read, not when it's loaded from db
-    #     # TODO: normalize the language code to a common format
-    #     lang = get_language()
-    #     if lang is None:
-    #         raise ImproperlyConfigured('Enable translations to use TranslationJSONField.')
-
-    #     if value is None:
-    #         return value
-
-    #     if lang in value:
-    #         return value.get(lang)
-    #     else:
-    #         default_lang = settings.LANGUAGE_CODE
-    #         return value.get(default_lang)
+    def contribute_to_class(self, cls, name, **kwargs):
+        """
+        Attach the custom translation descritor to the
+        model attribute to control access to the field values.
+        """
+        super().contribute_to_class(cls, name, **kwargs)
+        setattr(cls, name, TranslationJSONFieldDescriptor(name))
 
     def validate(self, value, model_instance):
         super().validate(value, model_instance)
@@ -42,8 +34,8 @@ class TranslationJSONField(JSONField):
 
 
 class TranslationJSONFieldDescriptor(object):
-    def __init__(self, field):
-        self.field = field
+    def __init__(self, field_name):
+        self.field_name = field_name
 
     def __get__(self, instance, owner):
         print('Accessing the value via descriptor')

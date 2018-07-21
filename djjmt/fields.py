@@ -36,7 +36,19 @@ class TranslationJSONField(JSONField):
 class TranslationJSONFieldDescriptor(object):
     def __init__(self, field_name):
         self.field_name = field_name
+        self.json_value = None
 
     def __get__(self, instance, owner):
-        print('Accessing the value via descriptor')
-        return 'foo'
+        # TODO: normalize the language code to a common format
+        lang = get_language()
+        if lang is None:
+            raise ImproperlyConfigured('Enable translations to use TranslationJSONField.')
+
+        if lang not in self.json_value:
+            lang = settings.LANGUAGE_CODE
+
+        return self.json_value.get(lang, None)
+
+    def __set__(self, instance, value):
+        if isinstance(value, dict):
+            self.json_value = value

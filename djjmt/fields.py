@@ -39,7 +39,10 @@ class TranslationJSONFieldDescriptor(object):
         self.field_name = field_name
         self.json_value = None
 
-    def __get__(self, instance, owner):
+    def __get__(self, instance, owner, raw=False):
+        if raw is True:
+            return self.json_value
+
         lang = get_normalised_language()
         if lang is None:
             raise ImproperlyConfigured('Enable translations to use TranslationJSONField.')

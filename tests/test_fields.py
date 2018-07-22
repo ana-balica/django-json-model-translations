@@ -39,6 +39,10 @@ def test_get_translation_when_no_lang(field_descriptor):
     assert 'Enable translations to use TranslationJSONField.' == str(exc.value)
 
 
+def test_get_raw_translation_json(field_descriptor):
+    assert field_descriptor.__get__(None, None, raw=True) == {'en-gb': 'hello', 'fr-fr': 'salut'}
+
+
 def test_set_translation_json():
     field_descriptor = TranslationJSONFieldDescriptor(field_name='foo')
     assert field_descriptor.json_value is None

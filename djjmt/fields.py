@@ -39,6 +39,13 @@ class TranslationJSONFieldDescriptor(object):
         self.json_value = None
 
     def __get__(self, instance, owner, raw=False):
+        """
+        Controls read access to a TranslationJSONField.
+
+        :param raw: if True, will return the whole dict
+        :returns: value from the dict based on active language.
+                  If the language key is missing, will return None.
+        """
         if raw is True:
             return self.json_value
 
@@ -52,6 +59,12 @@ class TranslationJSONFieldDescriptor(object):
         return self.json_value.get(lang, None)
 
     def __set__(self, instance, value):
+        """
+        Controls write access to a TranslationJSONField.
+        If the passed value is a dict, will treat it as the raw value of the field
+        and store it as an attribute on the descriptor for later use.
+        Otherwise will set the passed value on the dict based on the active language.
+        """
         if isinstance(value, dict):
             self.json_value = value
         else:

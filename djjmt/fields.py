@@ -34,7 +34,7 @@ class TranslationJSONField(JSONField):
         # TODO: check if the keys are valid language codes
 
 
-class TranslationJSONFieldDescriptor(object):
+class TranslationJSONFieldDescriptor:
     def __init__(self):
         self.json_value = None
 
@@ -46,6 +46,9 @@ class TranslationJSONFieldDescriptor(object):
         :returns: value from the dict based on active language.
                   If the language key is missing, will return None.
         """
+        if instance is None:
+            return self
+
         if raw is True:
             return self.json_value
 
@@ -61,6 +64,7 @@ class TranslationJSONFieldDescriptor(object):
     def __set__(self, instance, value):
         """
         Controls write access to a TranslationJSONField.
+
         If the passed value is a dict, will treat it as the raw value of the field
         and store it as an attribute on the descriptor for later use.
         Otherwise will set the passed value on the dict based on the active language.

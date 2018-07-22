@@ -10,7 +10,7 @@ from djjmt.fields import TranslationJSONFieldDescriptor
 
 @pytest.fixture
 def field_descriptor():
-    descriptor = TranslationJSONFieldDescriptor(field_name='foo')
+    descriptor = TranslationJSONFieldDescriptor()
     descriptor.json_value = {'en-gb': 'hello', 'fr-fr': 'salut'}
     return descriptor
 
@@ -44,7 +44,7 @@ def test_get_raw_translation_json(field_descriptor):
 
 
 def test_set_translation_json():
-    field_descriptor = TranslationJSONFieldDescriptor(field_name='foo')
+    field_descriptor = TranslationJSONFieldDescriptor()
     assert field_descriptor.json_value is None
 
     field_descriptor.__set__(None, {})

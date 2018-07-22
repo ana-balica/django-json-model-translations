@@ -27,7 +27,7 @@ class TranslationJSONField(JSONField):
         model attribute to control access to the field values.
         """
         super().contribute_to_class(cls, name, **kwargs)
-        setattr(cls, name, TranslationJSONFieldDescriptor(name))
+        setattr(cls, name, TranslationJSONFieldDescriptor())
 
     def validate(self, value, model_instance):
         super().validate(value, model_instance)
@@ -35,8 +35,7 @@ class TranslationJSONField(JSONField):
 
 
 class TranslationJSONFieldDescriptor(object):
-    def __init__(self, field_name):
-        self.field_name = field_name
+    def __init__(self):
         self.json_value = None
 
     def __get__(self, instance, owner, raw=False):

@@ -8,31 +8,31 @@ from djjmt.fields import TranslationJSONFieldDescriptor
 
 
 @pytest.fixture
-def translation_descriptor():
+def field_descriptor():
     descriptor = TranslationJSONFieldDescriptor(field_name='foo')
     descriptor.json_value = {'en-gb': 'hello', 'fr-fr': 'salut'}
     return descriptor
 
 
-def test_get_default_translation(translation_descriptor):
+def test_get_default_translation(field_descriptor):
     with override('de-de'):
-        assert translation_descriptor.__get__(None, None) == 'hello'
+        assert field_descriptor.__get__(None, None) == 'hello'
 
 
-def test_get_translation_based_on_active_language(translation_descriptor):
+def test_get_translation_based_on_active_language(field_descriptor):
     with override('fr_FR'):
-        assert translation_descriptor.__get__(None, None) == 'salut'
+        assert field_descriptor.__get__(None, None) == 'salut'
 
 
 @override_settings(LANGUAGE_CODE='de-de')
-def test_get_missing_translation_for_default_lang(translation_descriptor):
+def test_get_missing_translation_for_default_lang(field_descriptor):
     with override('ro-ro'):
-        assert translation_descriptor.__get__(None, None) is None
+        assert field_descriptor.__get__(None, None) is None
 
 
 @override_settings(LANGUAGE_CODE=None)
-def test_get_translation_when_no_language(translation_descriptor):
+def test_get_translation_when_no_language(field_descriptor):
     with pytest.raises(ImproperlyConfigured) as exc:
-        translation_descriptor.__get__(None, None)
+        field_descriptor.__get__(None, None)
 
     assert 'Enable translations to use TranslationJSONField.' == str(exc.value)

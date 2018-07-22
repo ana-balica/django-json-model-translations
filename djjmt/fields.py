@@ -27,6 +27,7 @@ class TranslationJSONField(JSONField):
         model attribute to control access to the field values.
         """
         super().contribute_to_class(cls, name, **kwargs)
+        setattr(cls, f'{name}__raw', TranslationJSONRawFieldDescriptor(name))
         setattr(cls, name, TranslationJSONFieldDescriptor())
 
     def validate(self, value, model_instance):
@@ -77,3 +78,20 @@ class TranslationJSONFieldDescriptor:
                 raise ImproperlyConfigured('Enable translations to use TranslationJSONField.')
 
             self.json_value[lang] = value
+
+
+class TranslationJSONRawFieldDescriptor:
+    def __init__(self, field_name):
+        self.field_name = field_name
+
+    def __get__(self, instance, owner):
+        """
+        Return the raw value of the TranslationJSONField
+        by accessing and calling the field descriptor explicitly
+        and passing the `raw` param.
+        """
+        descriptor = getattr(type(instance), self.field_name)
+        return descriptor.__get__(instance, self, raw=True)
+
+    def __set__(self, instance, value):
+        setattr(instance, self.field_name, value)
